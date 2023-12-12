@@ -1,0 +1,22 @@
+[ req ]
+default_bits		= 2048
+default_md		= sha256
+prompt = no
+
+distinguished_name = req_distinguished_name
+
+[ req_distinguished_name ]
+C=CN
+ST=SX
+L=XA
+O=acm
+OU=grpc
+emailAddress=me@working.me
+CN = acm
+
+[ req_ext ]
+subjectAltName = IP:127.0.0.1
+
+#
+[ alt_names ]
+DNS.1 = localhost
