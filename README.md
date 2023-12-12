@@ -23,10 +23,17 @@ openssl x509 -req -days 36500 -in server.csr -CA ca.crt -CAkey ca.key -CAcreates
 2. run
 
 ```
-go run server/server.go --cert="tls/server.crt" --key="tls/server.key"
+go run httpserver/server.go --cert="tls/server.crt" --key="tls/server.key"
 
-go run client/client.go --addr="http://127.0.0.1:8090" --ca="tls/ca.crt"
+go run httpclient/client.go --addr="http://127.0.0.1:8090" --ca="tls/ca.crt"
 
 curl --cacert "tls/ca.crt" -k https://localhost:8090/hello
+
+go run http2server/server.go --cert="tls/server.crt" --key="tls/server.key"
+
+go run http2client/client.go --addr="http://127.0.0.1:8090" --ca="tls/ca.crt"
+
+curl --cacert "tls/ca.crt"  -v --http2-prior-knowledge -k https://localhost:8090/hello
+
 
 ```

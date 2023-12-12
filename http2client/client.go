@@ -47,12 +47,22 @@ func main() {
 		tlsConfig.RootCAs = certPool
 	}
 
-	tr := &http2.Transport{
-		TLSClientConfig:    tlsConfig,
-		DisableCompression: true,
-		AllowHTTP:          true,
+	// tr := &http2.Transport{
+	// 	TLSClientConfig:    tlsConfig,
+	// 	DisableCompression: true,
+	// 	AllowHTTP:          true,
+	// }
+
+	httptr := &http.Transport{
+		TLSClientConfig: tlsConfig,
+		Proxy:           http.ProxyFromEnvironment,
 	}
-	client := &http.Client{Transport: tr}
+
+	err := http2.ConfigureTransport(httptr)
+	if err != nil {
+		panic(err)
+	}
+	client := &http.Client{Transport: httptr}
 	resp, err := client.Get(path)
 	if err != nil {
 		panic(err)
